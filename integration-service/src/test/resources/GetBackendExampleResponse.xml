@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<GetBackendExampleResponse xmlns="http://xmlns.example.com/backend/example"
+                           xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <name>Hello World!</name>
+</GetBackendExampleResponse>

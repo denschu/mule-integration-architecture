@@ -1,0 +1,3 @@
+<GetBackendExampleRequest xmlns="http://xmlns.example.com/backend/example">
+	<exampleId>1</exampleId>
+</GetBackendExampleRequest>

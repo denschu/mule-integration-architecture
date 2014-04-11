@@ -1,0 +1,36 @@
+#%RAML 0.8
+---
+title: Customers API
+version: 1.0
+baseUri: http://localhost:8080/api
+documentation:
+  - title: Getting Started
+    content: |
+      This sample API has been created as part of your APIkit project. 
+/customers:
+  displayName: Cutomers
+  description: A collection of customers. Customers API allow you add, remove and retrieve individual customer information.
+  get:
+    description: Obtain information from a collection of customers
+    queryParameters:
+      type:
+        description: |
+          Filter the list of customers by type.
+        type: string
+        required: false
+        example: vip
+    responses:
+      200:
+        body:
+          application/json:
+            schema: !include schemas/customers-schema-input.json
+            example: !include examples/customers-example.json
+            
+  /{customerId}:
+    get:
+      description: Obtain information from a specific customer
+      responses:
+        200:
+          body:
+            application/json:     
+              example: !include examples/customer-example.json

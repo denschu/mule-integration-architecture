@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="backend-mock">
+    <global-element name="HTTP\HTTPS" type="http://www.mulesoft.org/schema/mule/http/connector" entity-id="HTTP\HTTPS#1">
+        <properties>
+            <property name="name" value="http-backend"/>
+            <property name="enableCookies"/>
+            <property name="label"/>
+            <property name="cookieSpec"/>
+            <property name="dispatcherPoolFactory-ref"/>
+            <property name="dynamicNotification"/>
+            <property name="validateConnections"/>
+            <property name="sendBufferSize"/>
+            <property name="receiveBufferSize"/>
+            <property name="receiveBacklog"/>
+            <property name="sendTcpNoDelay"/>
+            <property name="reuseAddress"/>
+            <property name="keepSendSocketOpen"/>
+            <property name="keepAlive"/>
+            <property name="clientSoTimeout"/>
+            <property name="serverSoTimeout"/>
+            <property name="socketSoLinger"/>
+            <property name="proxyHostname"/>
+            <property name="proxyPort"/>
+            <property name="proxyUsername"/>
+            <property name="proxyPassword"/>
+            <property name="auxiliary;index" value="1"/>
+        </properties>
+    </global-element>
+    <flow SubFlow="false" name="backend-mock" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="2fbcce33-cbbc-40a6-91f8-03ad57b8eb4e">
+        <properties>
+            <property name="initialState"/>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="2"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+                <properties>
+                    <property name="exchange-pattern"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="httpLabel"/>
+                    <property name="host"/>
+                    <property name="port"/>
+                    <property name="path"/>
+                    <property name="method"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="address" value="${backend.example.url}"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="mimeType"/>
+                    <property name="responseTimeout"/>
+                    <property name="followRedirects"/>
+                    <property name="connector-ref" value="http-backend"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="user"/>
+                    <property name="password"/>
+                    <property name="contentType"/>
+                    <property name="keep-alive"/>
+                    <property name="auxiliary;index" value="3"/>
+                </properties>
+            </endpoint>
+            <pattern name="Logger" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#1">
+                <properties>
+                    <property name="message" value="HALLO: #[message]"/>
+                    <property name="level" value="INFO"/>
+                    <property name="category"/>
+                    <property name="auxiliary;index" value="4"/>
+                </properties>
+            </pattern>
+            <pattern name="SOAP" type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" entity-id="SOAP#1">
+                <properties>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/cxf/jaxws-service"/>
+                    <property name="configuration-ref"/>
+                    <property name="bindingId"/>
+                    <property name="port"/>
+                    <property name="namespace"/>
+                    <property name="service"/>
+                    <property name="onException"/>
+                    <property name="serviceClass" value="com.example.xmlns.backend.BackendExampleWS"/>
+                    <property name="validationEnabled"/>
+                    <property name="wsdlLocation"/>
+                    <property name="mtomEnabled"/>
+                    <property name="enableMuleSoapHeaders"/>
+                    <property name="soapVersion"/>
+                    <property name="auxiliary;index" value="5"/>
+                </properties>
+            </pattern>
+            <pattern name="Java" type="http://www.mulesoft.org/schema/mule/core/component" entity-id="Java#1">
+                <properties>
+                    <property name="class" value="de.codecentric.backend.example.ExampleBackendMock"/>
+                    <property name="auxiliary;index" value="6"/>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+</mule-configuration>

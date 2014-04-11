@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:ex="http://xmlns.example.com/integration/example" xmlns:common="http://xmlns.example.com/integration/common/1.0">
+	<soapenv:Header />
+	<soapenv:Body>
+		<ex:GetExampleRequest>
+			<common:user>???</common:user>
+			<common:password>???</common:password>
+			<ex:exampleId>1</ex:exampleId>
+		</ex:GetExampleRequest>
+	</soapenv:Body>
+</soapenv:Envelope>
