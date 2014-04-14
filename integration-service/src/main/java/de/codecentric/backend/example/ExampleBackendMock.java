@@ -8,7 +8,7 @@ public class ExampleBackendMock {
 
 	public GetCustomerResponse getBackendExample(GetCustomerRequest request) throws Exception {
 		GetCustomerResponse response = new GetCustomerResponse();
-		response.setName("Hello World!");
+		response.setName("helloWorld-v1");
 		return response;
 	}
 

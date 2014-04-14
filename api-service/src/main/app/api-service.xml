@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+    
+    <http:connector name="http-1" doc:name="HTTP\HTTPS" />
+    <http:connector name="http-2" doc:name="HTTP\HTTPS" />
+    <http:connector name="http-backend" doc:name="HTTP-HTTPS"/>
+    
+    <spring:beans>
+        <spring:import resource="classpath:common-mule-config.xml" />
+    </spring:beans>
+    
+    <flow name="dispatcher-flow" doc:name="service-registry-mule-exampleFlow1">
+        <http:inbound-endpoint address="${inbound.api.url}" connector-ref="http-1" doc:name="HTTP" />   
+        <!-- TODO: Replace the enricher with a custom Service Lookup Connector -->
+        <enricher doc:name="Message Enricher" target="#[variable:targetUrl]">
+	        <processor-chain>
+	        	<!-- Extract Servicename and Version from the context path -->
+	            <set-variable value="#[message.inboundProperties.'http.context.path'.split('/')[1]]" variableName="serviceName" doc:name="Variable" />
+	            <set-variable value="#[message.inboundProperties.'http.context.path'.split('/')[2]]" variableName="serviceVersion" doc:name="Variable" />
+	            <!-- Call Registry for Service Lookup -->
+				<http:outbound-endpoint connector-ref="http-2" user="${sr.user}" password="${sr.password}" host="${sr.host}" port="${sr.port}" path="api/services/#[flowVars['serviceName']]/versions/#[flowVars['serviceVersion']]" method="GET"/>
+				<object-to-string-transformer />
+			</processor-chain>
+        </enricher>
+        <logger level="INFO"/>
+        <http:outbound-endpoint exchange-pattern="request-response" connector-ref="http-2" address="http://#[variable:targetUrl]/#[message.inboundProperties.'http.relative.path']" method="GET" doc:name="HTTP"/>
+    </flow>
+    
+    <!--Uncomment for local standalone testing 
+    <flow name="mock-service1" doc:name="service1">
+        <http:inbound-endpoint exchange-pattern="request-response" connector-ref="http-backend" host="localhost" port="8082" path="example/v1" doc:name="HTTP"/>
+        <set-payload value="helloWorld-v1" doc:name="Set Payload" />
+    </flow>
+    
+    <flow name="mock-service2" doc:name="service2">
+        <http:inbound-endpoint exchange-pattern="request-response" connector-ref="http-backend" host="localhost" port="8082" path="example/v2" doc:name="HTTP"/>
+        <set-payload value="helloWorld-v2" doc:name="Set Payload" />
+    </flow--> 
+    
+</mule>

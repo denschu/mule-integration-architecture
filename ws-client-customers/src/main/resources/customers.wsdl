@@ -20,16 +20,16 @@
     <wsdl:part element="schema:GetCustomerResponse" name="GetCustomerResponse" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"></wsdl:part>
   </wsdl:message>
 
-  <wsdl:portType name="backendCustomersWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
-    <wsdl:operation name="GetBackendCustomer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:portType name="customersWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:operation name="GetCustomer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
       <wsdl:input message="schema:GetCustomerRequest" name="GetCustomerRequest" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"></wsdl:input>
       <wsdl:output message="schema:GetCustomerResponse" name="GetCustomerResponse" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"></wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
 
-  <wsdl:binding name="customersWSBinding" type="schema:backendCustomersWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:binding name="customersWSBinding" type="schema:customersWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
-    <wsdl:operation name="GetBackendCustomer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:operation name="GetCustomer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
       <soap:operation soapAction="" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
       <wsdl:input name="GetCustomerRequest" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
         <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
