@@ -1,0 +1,5 @@
+target
+.classpath
+.project
+.settings
+integration-service/src/test/java/de/codecentric/integration/example/ExampleServiceITest.java
