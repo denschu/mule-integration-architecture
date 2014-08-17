@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:wmq="http://www.mulesoft.org/schema/mule/ee/wmq" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:test="http://www.mulesoft.org/schema/mule/test" version="EE-3.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/ee/wmq/current/mule-wmq-ee.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/test http://www.mulesoft.org/schema/mule/test/current/mule-test.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    <jms:activemq-connector name="activeMqConnector" brokerURL="vm://localhost" validateConnections="true" doc:name="Active MQ"></jms:activemq-connector>
+   
+    <flow name="request-flow" doc:name="dmz-flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP"/>
+        <test:component/>
+        <request-reply storePrefix="mainFlow" timeout="5000"> 
+            <jms:outbound-endpoint queue="TEST.ECHO.MESSAGE.QUEUE" doc:name="JMS"> </jms:outbound-endpoint>  
+            <jms:inbound-endpoint queue="TEST.ECHO.MESSAGE.QUEUE.REPLY" doc:name="JMS"></jms:inbound-endpoint>  
+        </request-reply>  
+    </flow>
+    
+    <flow name="response-flow" doc:name="lan-flow">
+    	<jms:inbound-endpoint queue="TEST.ECHO.MESSAGE.QUEUE" doc:name="JMS"/>
+      	<test:component appendString=" RESPONSE OK"/>
+    </flow>
+</mule>
